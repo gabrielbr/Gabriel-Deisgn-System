@@ -3,6 +3,12 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.2.1 — 2026-11-01
+
+Docs only: the app syncs are open (NotTheOmiAIApp#245 retires that repo's own token copy and fixes
+the kit; PulseLoopAndroid#55 makes PulseColors read GTokens). docs/consuming.md and D-8 say so.
+No app has anything new to do.
+
 ## 0.2.0 — 2026-11-01
 
 Fixes the kit's three contrast failures from the 0.1.0 audit, and a fourth found while fixing them.

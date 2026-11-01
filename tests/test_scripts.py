@@ -63,5 +63,34 @@ class SharedLightTest(unittest.TestCase):
         self.assertEqual(len(self.run_check(t)), 1)
 
 
+
+class VariantTest(unittest.TestCase):
+    def tokens(self, carry_on_accent):
+        colours = ["@mint", "@on-mint", "@fairy-accent"] + (["@fairy-on-accent"] if carry_on_accent else [])
+        return {
+            "core": {"color": [{"name": "mint", "value": {"dark": "#43F3B7"}},
+                               {"name": "on-mint", "value": {"dark": "#033423"}}]},
+            "layers": {"app": {"themes": ["dark"], "color": colours}},
+            "variants": {"fairy": {"color": [
+                {"name": "fairy-accent", "value": {"dark": "#FF8FC7"}, "replaces": "mint"},
+                {"name": "fairy-on-accent", "value": {"dark": "#3D0A26"}, "replaces": "on-mint"}]}},
+            "contrast": [{"fg": "on-mint", "bg": "mint", "min": 4.5, "layers": ["app"]}],
+        }
+
+    def test_half_a_variant_is_rejected(self):
+        check_tokens.errors.clear()
+        check_tokens.check_variants(self.tokens(False))
+        self.assertEqual(len(check_tokens.errors), 1)
+
+    def test_whole_variant_passes_and_contrast_is_checked_swapped(self):
+        t = self.tokens(True)
+        check_tokens.errors.clear()
+        check_tokens.check_variants(t)
+        self.assertEqual(check_tokens.errors, [])
+        cases = list(check_tokens.contrast_cases(t, ["app"]))
+        self.assertEqual([v for _, v, _ in cases], [None, "fairy"])
+        self.assertEqual(cases[1][2]["mint"]["dark"], "#FF8FC7")
+
+
 if __name__ == "__main__":
     unittest.main()

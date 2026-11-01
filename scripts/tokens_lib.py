@@ -23,9 +23,17 @@ def core_index(t):
     return {g: {tok["name"]: tok for tok in t["core"].get(g, [])} for g in GROUPS}
 
 
+def variant_colours(t):
+    """{name: (variant name, token)} for every colour a variant defines (they can be pulled with "@")."""
+    return {tok["name"]: (vname, tok) for vname, v in t.get("variants", {}).items() for tok in v.get("color", [])}
+
+
 def resolve(t, layer_name):
-    """{group: [token, ...]} for one layer, in the layer's order, core refs replaced by the core token."""
+    """{group: [token, ...]} for one layer, in the layer's order, "@" refs replaced by the core (or,
+    for colours, variant) token they name."""
     core = core_index(t)
+    for name, (vname, tok) in variant_colours(t).items():
+        core["color"].setdefault(name, dict(tok, variant=vname))
     layer = t["layers"][layer_name]
     out = {}
     for g in GROUPS:
@@ -37,7 +45,7 @@ def resolve(t, layer_name):
                 name = entry[1:]
                 if name not in core[g]:
                     raise ValueError(f"{layer_name}.{g}: no core token {name!r}")
-                items.append(dict(core[g][name], core=True))
+                items.append(dict(core[g][name], core="variant" not in core[g][name]))
             else:
                 items.append(dict(entry, core=False))
         out[g] = items

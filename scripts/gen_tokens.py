@@ -143,6 +143,14 @@ def css(t, layer_name):
         o.append(f'  :root:not([data-theme="{first}"]) {{')
         o.extend(f"    --gds-{n}: {css_hex(v[th])};" for n, v in colours.items() if th in v)
         o += ["  }", "}"]
+    names = set(colours)
+    for vname, variant in t.get("variants", {}).items():
+        swaps = [tok for tok in variant.get("color", []) if tok["name"] in names and tok.get("replaces") in names]
+        if swaps:
+            o += ["", f"/* Variant {vname}: {variant.get('doc', '')}. Set data-variant=\"{vname}\" on the root. */",
+                  f'[data-variant="{vname}"] {{']
+            o.extend(f"  --gds-{tok['replaces']}: var(--gds-{tok['name']});" for tok in swaps)
+            o.append("}")
     o += ["", ":root {", f"  --gds-font: {t['core']['type']['family']};"]
     for fam in ("spacing", "radius", "size", "motion"):
         o.extend(f"  --gds-{tok['name']}: {tok['value']};" for tok in r[fam])

@@ -106,6 +106,12 @@ These are the system's non-negotiables. The reasons are in [docs/foundations.md]
   ([docs/content.md](docs/content.md)); no engine, vendor or exception names in UI text.
 - **Copy.** Short, plain, sentence case, verb first on buttons; English and Brazilian Portuguese.
 - **Icons.** One line set, 22dp, stroke 1.75, `ink` or `muted`. Never emoji as icons.
+- **Fairy mode is part of the system.** When the profile name is Tatá's, the brand turns pink
+  ([docs/fairy-mode.md](docs/fairy-mode.md), `variants.fairy`). It swaps brand tokens only, never
+  neutrals, alerts, semantic or data colours. A new brand token (anything mint, or on mint) gets its
+  `fairy-*` replacement in the same change; `check_tokens.py` fails a layer that carries half the
+  variant and re-checks every contrast pair with the variant on. Every app with a profile name
+  carries it. Don't announce it anywhere in the apps: it's a surprise for her.
 
 ## Never
 

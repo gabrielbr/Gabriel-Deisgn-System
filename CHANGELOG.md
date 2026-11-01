@@ -3,6 +3,23 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.3.0 — 2026-11-01
+
+Fairy mode joins the system: the pink variant PulseLoop shows when the profile name is Tatá's.
+
+- `variants.fairy` in tokens.json: the match rule, five colours that each replace one brand token
+  (`fairy-accent` → mint, `fairy-on-accent` → on-mint, `fairy-accent-soft` → mint-soft,
+  `fairy-rem` → stage-rem, and new `fairy-action` → snackbar-action), and the celebration's values.
+- `check_tokens.py`: a layer that carries any variant colour must carry the replacement of every
+  replaced token it has, and every contrast pair is checked again with the variant on.
+  CSS gets `[data-variant="fairy"]`.
+- docs/fairy-mode.md: who it's for, what changes and what never does, the transformation, the
+  lifecycle, and how to build it in Compose (done), the Views kit (to do) and the web.
+- AGENTS.md: Fairy mode is part of the system; a new brand token gets its fairy replacement.
+- **NotTheOmiAIApp:** copy `generated/uikit/UiTokens.java` (adds `FAIRY_ACCENT`,
+  `FAIRY_ON_ACCENT`, `FAIRY_ACTION`; nothing uses them until the kit builds Fairy mode, D-10).
+- **PulseLoop:** nothing; `GTokens.kt` is unchanged.
+
 ## 0.2.1 — 2026-11-01
 
 Docs only: the app syncs are open (NotTheOmiAIApp#245 retires that repo's own token copy and fixes

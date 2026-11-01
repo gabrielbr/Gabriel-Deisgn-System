@@ -88,11 +88,49 @@ def check_shared_light(t):
             seen.setdefault(light, (tok["name"], dark))
 
 
+def check_variants(t):
+    """A variant colour replaces one token. A layer that carries any colour of a variant carries the
+    replacement for every replaced token it has, so the swap can't leave half the brand behind."""
+    for vname, variant in t.get("variants", {}).items():
+        for tok in variant.get("color", []):
+            if not tok.get("replaces"):
+                err(f"variants.{vname}.{tok['name']}: says nothing about what it replaces")
+        for lname in t["layers"]:
+            names = {tok["name"] for tok in resolve(t, lname)["color"]}
+            carried = [tok for tok in variant.get("color", []) if tok["name"] in names]
+            if not carried:
+                continue
+            for tok in variant.get("color", []):
+                if tok.get("replaces") in names and tok["name"] not in names:
+                    err(f"{lname}: carries variant {vname} but not {tok['name']} (replaces {tok['replaces']})")
+            for tok in carried:
+                if tok.get("replaces") not in names:
+                    err(f"{lname}: {tok['name']} replaces {tok.get('replaces')}, which the layer doesn't have")
+
+
+def with_variant(t, lname, colours, vname):
+    """The layer's colours with the variant's replacements swapped in."""
+    swapped = dict(colours)
+    for tok in t["variants"][vname].get("color", []):
+        if tok["name"] in colours and tok.get("replaces") in colours:
+            swapped[tok["replaces"]] = colours[tok["name"]]
+    return swapped
+
+
+def contrast_cases(t, layer_names):
+    """Each layer as shipped, then once per variant it carries, with the variant swapped in."""
+    for lname in layer_names:
+        colours = colour_map(t, lname)
+        yield lname, None, colours
+        for vname, variant in t.get("variants", {}).items():
+            if any(tok["name"] in colours for tok in variant.get("color", [])):
+                yield lname, vname, with_variant(t, lname, colours, vname)
+
+
 def check_contrast(t):
     for pair in t["contrast"]:
-        for lname in pair["layers"]:
+        for lname, vname, colours in contrast_cases(t, pair["layers"]):
             layer = t["layers"][lname]
-            colours = colour_map(t, lname)
             for th in pair.get("themes", layer["themes"]):
                 def pick(ref):
                     if ref.startswith("#"):
@@ -106,7 +144,7 @@ def check_contrast(t):
                     err(f"contrast: {lname} has no colour {e}")
                     continue
                 ratio = contrast(fg, bg)
-                label = f"{lname}/{th}: {pair['fg']} on {pair['bg']} = {ratio:.2f}:1 (min {pair['min']})"
+                label = f"{lname}{'+' + vname if vname else ''}/{th}: {pair['fg']} on {pair['bg']} = {ratio:.2f}:1 (min {pair['min']})"
                 ok = ratio >= pair["min"]
                 if pair.get("known"):
                     if ok:
@@ -138,6 +176,7 @@ def main():
     t = load()
     check_layers(t)
     check_shared_light(t)
+    check_variants(t)
     check_contrast(t)
     check_version(t)
     check_generated()

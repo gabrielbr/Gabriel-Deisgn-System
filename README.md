@@ -13,6 +13,7 @@ icons and marks. Apps copy from here; they don't define their own.
 | Path | What |
 |---|---|
 | [`tokens/tokens.json`](tokens/tokens.json) | Every value: core (shared) + one layer per app |
+| [`docs/fairy-mode.md`](docs/fairy-mode.md) | Fairy mode: the pink variant for Tatá, and how to build it |
 | [`DESIGN.md`](DESIGN.md) | The system on one page (DESIGN.md format; frontmatter generated) |
 | [`PRODUCT.md`](PRODUCT.md) | Who the apps are for, and the brand commitments |
 | [`docs/`](docs/) | Foundations, components, content, accessibility, tokens, syncing, divergences, audit process |

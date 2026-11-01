@@ -1,6 +1,6 @@
 ---
 name: Gabriel Design System
-version: 0.2.1
+version: 0.3.0
 # GENERATED from tokens/tokens.json by scripts/gen_tokens.py. Edit the tokens, not this block.
 colors:
   page: "#F2F2F2"
@@ -190,6 +190,12 @@ tab is a mint pill behind the icon. Pushed screens have a back header and no tab
 
 A 4dp mint border round every screen. In uikit it is also the loading line: a lap of 1500ms round
 the frame while the screen waits on something the user asked for.
+
+### Fairy mode
+
+A private variant: when the profile name is Tatá's, the transformation plays once and the brand
+turns pink (`fairy-accent` `#FF8FC7`, `fairy-on-accent` `#3D0A26`), with smooth washes instead of
+dither. Only brand tokens swap. Spec and how to build it: [docs/fairy-mode.md](docs/fairy-mode.md).
 
 ## Do's and Don'ts
 

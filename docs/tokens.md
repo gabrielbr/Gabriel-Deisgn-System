@@ -41,6 +41,11 @@
   equal; `drift.py` uses it. A new PulseLoop colour needs one.
 - **`contrast`** lists every text/background pair a component uses. `themes` narrows a pair to some
   themes. `"known": "<audit id>"` marks a tracked failure (warns while failing, errors once fixed).
+- **`variants.<name>`** is a palette that replaces some tokens for a while (today only `fairy`,
+  docs/fairy-mode.md). Each variant colour says what it `replaces`; a layer pulls the ones it needs
+  with `"@fairy-accent"` like a core token. A layer that carries any of a variant's colours must carry
+  the replacement for every replaced token it has, and the contrast pairs are checked a second time
+  with the variant swapped in. CSS gets a `[data-variant="<name>"]` block.
 - **`usage`** is one plain sentence: what the token is for. It becomes the code comment.
 
 ## Workflow

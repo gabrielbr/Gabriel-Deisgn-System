@@ -38,7 +38,8 @@ Glanced at on the move, one-handed, often in the dark (PulseLoop at night). Impe
 ## Brand Commitments
 
 The 4dp mint frame, Ubuntu Mono everywhere, one mint accent with `on-mint` text, the mint
-highlighter behind one word of a title, and PulseLoop's Bayer dither. These are the brief, not
+highlighter behind one word of a title, and PulseLoop's Bayer dither. And Fairy mode: when the
+profile name is Tatá's (the owner's wife), the brand turns pink; it's a gift, not a setting. These are the brief, not
 findings: an audit doesn't propose replacing them.
 
 ## Product Principles

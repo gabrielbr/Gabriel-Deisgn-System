@@ -62,6 +62,11 @@ the dots for smooth washes. ⬜ Decide whether uikit adopts it (divergences D-3)
   diagonal dither wipe (divergences D-2).
 - With the system's animations off, nothing moves; things appear.
 
+## Fairy mode ✅ PulseLoop / ⬜ uikit
+
+A variant palette for Tatá: mint and its partners swap for pink, dither turns to smooth washes,
+nothing else moves. See [fairy-mode.md](fairy-mode.md).
+
 ## Iconography ✅
 
 One line set, 22dp, stroke 1.75, tinted `ink` or `muted` (`assets/icons/android/gg_ic_*.xml`).

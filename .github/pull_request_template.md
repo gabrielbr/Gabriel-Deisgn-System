@@ -1,0 +1,25 @@
+## What changes
+
+<!-- Tokens (old → new), rules, components, assets. -->
+
+## Why
+
+## Audit
+
+- [ ] `audits/<date>-<topic>.md` added
+- [ ] graphic-design-fundamentals §13 checklist run
+- [ ] impeccable audit (native) run; critique too if visual
+- [ ] No new critical / P0 / P1
+
+## Checks
+
+- [ ] `python3 scripts/gen_tokens.py` run, generated files committed
+- [ ] `python3 scripts/check_tokens.py`: 0 errors
+- [ ] Version bumped (tokens.json, VERSION, CHANGELOG.md) — or docs-only patch noted
+
+## Impact on the apps
+
+| App | What it must do |
+|---|---|
+| NotTheOmiAIApp (uikit) | |
+| PulseLoopAndroid | |

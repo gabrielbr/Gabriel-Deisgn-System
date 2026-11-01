@@ -1,0 +1,27 @@
+name: Design system checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Script tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Tokens (contrast, scale, coverage, versions, generated files)
+        run: python3 scripts/check_tokens.py
+      - name: Every PR carries an audit
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --depth=1 origin "${{ github.base_ref }}"
+          if git diff --name-only FETCH_HEAD HEAD | grep -q '^audits/[0-9].*\.md$'; then
+            echo "audit found"
+          else
+            echo "::error::No audits/YYYY-MM-DD-*.md in this PR. Every change is audited with graphic-design-fundamentals and impeccable (AGENTS.md)."
+            exit 1
+          fi

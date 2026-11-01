@@ -1,0 +1,129 @@
+#!/usr/bin/env python3
+"""The design system's blockers, as a check. CI runs it on every PR; run it before you push.
+
+    python3 scripts/check_tokens.py
+
+Fails on: a malformed or unresolvable token, a core token missing from a layer, a spacing or
+radius value outside the core scale, text under the 12px floor, a size off a layer's type scale,
+a contrast pair under its minimum, a version that disagrees between tokens.json / VERSION /
+CHANGELOG.md, or generated files that are stale. A contrast pair marked "known" is a tracked audit
+finding: it warns while it fails, and fails once it passes (so the exception gets removed).
+"""
+import re
+import subprocess
+import sys
+
+from tokens_lib import GROUPS, ROOT, colour_map, contrast, core_index, load, num, resolve
+
+HEX = re.compile(r"^#(?:[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$")
+errors, warnings = [], []
+
+
+def err(msg):
+    errors.append(msg)
+
+
+def check_layers(t):
+    core = core_index(t)
+    scale = {num(tok["value"]) for tok in t["core"]["spacing"]}
+    radii = {num(tok["value"]) for tok in t["core"]["radius"]}
+    floor = t["core"]["type"]["floor"]
+    for name, layer in t["layers"].items():
+        try:
+            r = resolve(t, name)
+            colours = colour_map(t, name)
+        except (ValueError, KeyError) as e:
+            err(f"{name}: {e}")
+            continue
+        for g in GROUPS:
+            seen = [tok["name"] for tok in r[g]]
+            dupes = {n for n in seen if seen.count(n) > 1}
+            if dupes:
+                err(f"{name}.{g}: duplicate {sorted(dupes)}")
+            missing = set(core[g]) - set(seen)
+            if missing:
+                err(f"{name}.{g}: core tokens missing from the layer: {sorted(missing)}")
+        for cname, v in colours.items():
+            for th in layer["themes"]:
+                if th not in v:
+                    err(f"{name}.color.{cname}: no {th} value, and the layer ships {th}")
+                elif not HEX.match(v[th]):
+                    err(f"{name}.color.{cname}.{th}: {v[th]!r} is not #RRGGBB or #AARRGGBB")
+        for tok in r["spacing"]:
+            if num(tok["value"]) not in scale:
+                err(f"{name}.spacing.{tok['name']}: {tok['value']} is not on the core scale")
+        for tok in r["radius"]:
+            if num(tok["value"]) not in radii:
+                err(f"{name}.radius.{tok['name']}: {tok['value']} is not a core radius")
+        type_scale = set(layer.get("typeScale", []))
+        for group in layer.get("type", []):
+            for st in group["styles"]:
+                size = num(st["fontSize"])
+                if size < floor:
+                    err(f"{name}.type.{st['name']}: {size}px is under the {floor}px floor")
+                if type_scale and size not in type_scale:
+                    err(f"{name}.type.{st['name']}: {size}px is not on the layer's typeScale")
+
+
+def check_contrast(t):
+    for pair in t["contrast"]:
+        for lname in pair["layers"]:
+            layer = t["layers"][lname]
+            colours = colour_map(t, lname)
+            for th in pair.get("themes", layer["themes"]):
+                def pick(ref):
+                    if ref.startswith("#"):
+                        return ref
+                    if ref not in colours:
+                        raise KeyError(ref)
+                    return colours[ref][th]
+                try:
+                    fg, bg = pick(pair["fg"]), pick(pair["bg"])
+                except KeyError as e:
+                    err(f"contrast: {lname} has no colour {e}")
+                    continue
+                ratio = contrast(fg, bg)
+                label = f"{lname}/{th}: {pair['fg']} on {pair['bg']} = {ratio:.2f}:1 (min {pair['min']})"
+                ok = ratio >= pair["min"]
+                if pair.get("known"):
+                    if ok:
+                        err(f"{label} now passes: remove known={pair['known']} and close the audit item")
+                    else:
+                        warnings.append(f"{label} [tracked: {pair['known']}]")
+                elif not ok:
+                    err(label)
+
+
+def check_version(t):
+    v = t["version"]
+    file_v = (ROOT / "VERSION").read_text().strip()
+    if file_v != v:
+        err(f"VERSION is {file_v}, tokens.json is {v}")
+    m = re.search(r"^## \[?(\d+\.\d+\.\d+)", (ROOT / "CHANGELOG.md").read_text(), re.M)
+    if not m or m.group(1) != v:
+        err(f"CHANGELOG.md's latest entry is {m.group(1) if m else 'missing'}, tokens.json is {v}")
+
+
+def check_generated():
+    res = subprocess.run([sys.executable, str(ROOT / "scripts/gen_tokens.py"), "--check"],
+                         capture_output=True, text=True)
+    if res.returncode:
+        err(res.stdout.strip() or res.stderr.strip())
+
+
+def main():
+    t = load()
+    check_layers(t)
+    check_contrast(t)
+    check_version(t)
+    check_generated()
+    for w in warnings:
+        print("warning:", w)
+    for e in errors:
+        print("error:", e)
+    print(f"check-tokens: {len(errors)} error(s), {len(warnings)} tracked warning(s)")
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

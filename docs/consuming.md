@@ -11,17 +11,18 @@ A change is not done when it merges here; it is done when the apps carry it and 
    :sentient:testDebugUnitTest` (screenshots in both themes).
 4. Every merge there releases all four apps, so batch design syncs.
 
-Today that repo still has its own copy of the old sources (`docs/redesign/design-system/tokens.json`,
-`scripts/gen_ui_tokens.py`). ⬜ Retire them in favour of this repo: replace the generator with a
-note pointing here, so there is one source. Until then, edit here first and keep both equal.
+🟡 Its own old sources (`docs/redesign/design-system/tokens.json`, `scripts/gen_ui_tokens.py`) are
+retired in NotTheOmiAIApp#245, which adds `scripts/sync_design_system.py`: it copies
+`generated/uikit/UiTokens.java` in and checks the widget's hand-copied colours. Step 1 becomes
+`python3 scripts/sync_design_system.py` (with this repo cloned next to it).
 
 ## PulseLoopAndroid
 
 1. Change the matching literal in `ui/theme/PulseColors.kt` / `PulseType.kt` / `Motion.kt` /
    `DitherTransition.kt` / `FairyMode.kt` (names are in each token's `alias.pulseloop`).
-2. ⬜ Adoption step, once: copy `generated/pulseloop/GTokens.kt` into `ui/theme/` and make
-   `PulseColors` read `GTokens.Colors.*` instead of literals (keeping its FairyMode getters).
-   After that, a sync is a file copy.
+2. 🟡 Adoption (PulseLoopAndroid#55): `PulseColors` and `FairyMode.Palette` read
+   `GTokens.Colors.*` instead of literals. Once it merges, a colour sync is copying
+   `generated/pulseloop/GTokens.kt` into `ui/theme/`.
 3. Update the PulseLoop design canvas and design-system artifact (that repo's AGENTS.md, "The
    design files and the app move together").
 4. Run `./gradlew :app:testDebugUnitTest` (includes `PulseTypeScaleTest`).

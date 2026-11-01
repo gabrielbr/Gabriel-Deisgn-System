@@ -11,8 +11,9 @@ apps, 🟡 in one app, ⬜ planned.
   the active tab, progress chips, the frame. Roughly 60 neutral / 30 surface / 10 accent: when mint
   covers more than a button and a pill, it stops pointing at anything.
 - **Text on mint is `on-mint` or `ink`** (9.7:1 / 12.6:1). White on mint is 1.4:1.
-- **Coral is for recording and alerts.** Solid coral only for Stop and the recording dot; alerts and
-  destructive actions use `coral-text`, on `coral-soft` when they need a ground.
+- **Coral is for recording and alerts.** Solid coral only for Stop and the recording dot, with an
+  `on-coral` (ink) label; alerts and destructive actions use `coral-text`, on `coral-soft` when they
+  need a ground. White on coral is 3.6:1 (light) and 2.5:1 (dark): never.
 - **Semantic ≠ brand** (PulseLoop 🟡): `success` green for good / in range / connected, `warning`
   amber, `info` cyan. Mint never means success.
 - **Data palette** (PulseLoop 🟡): one hue per metric, a zone scale (low → good → normal →

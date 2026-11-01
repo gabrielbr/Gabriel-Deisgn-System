@@ -57,14 +57,18 @@ it passes so the exception is removed.
 
 ## How a change goes in
 
-1. Branch, never push to `main`. One PR per change; the owner squash-merges once it is verified.
+1. Branch, never push to `main` directly. One PR per change.
 2. Edit `tokens/tokens.json` and/or the docs. Regenerate: `python3 scripts/gen_tokens.py`.
 3. Run `python3 scripts/check_tokens.py` (CI runs it too). Zero errors.
 4. Run the audit (above) and commit `audits/<date>-<topic>.md`.
 5. Bump the version (below): `tokens.json` `version`, `VERSION`, a `CHANGELOG.md` entry that says
    what changed for each app and what the app has to do.
 6. Open the PR with the template; it asks for the audit and the app impact.
-7. After merge, **sync the apps** ([docs/consuming.md](docs/consuming.md)): open a PR in each
+7. **Merge it to `main` yourself** (squash), once CI is green, the audit has no open critical /
+   P0 / P1 that the change introduces, and there are no unresolved review threads. The owner's
+   standing instruction (2026-11-01): in this repo, always merge to main; don't leave PRs waiting.
+   This applies to this repo only; the app repos keep their own merge rules.
+8. After merge, **sync the apps** ([docs/consuming.md](docs/consuming.md)): open a PR in each
    affected app repo that copies the generated file in, and run
    `python3 scripts/drift.py --notheomi ../NotTheOmiAIApp --pulseloop ../PulseLoopAndroid`
    until it reports 0 differences. The app PR follows that repo's own rules (its tests, its

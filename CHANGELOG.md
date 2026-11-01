@@ -3,6 +3,25 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.2.0 — 2026-11-01
+
+Fixes the kit's three contrast failures from the 0.1.0 audit, and a fourth found while fixing them.
+
+- **New uikit tokens:** `on-coral` (`#17161A` both themes) for the Stop label and icon, replacing
+  white (A-1, 3.6:1 → 5.0:1); `snackbar-action` (`#43F3B7` light, `#0A7A55` dark) for the
+  snackbar's action, replacing mint (A-2, 1.3:1 → 4.8:1 in dark).
+- **`"pair": true`** on uikit colours that share a light value with an earlier token (`panel`,
+  `on-panel`, `on-coral`, `snackbar-action`). The kit looks dark values up by light value, so
+  `panel` drew `#F2F2F2` instead of `#000000` in dark and the player's times were 2.1:1 (A-10).
+  `check_tokens.py` enforces the mark; the generated comment says how to read the token.
+- `coral`'s usage text no longer states the wrong rule; `drift.py` prints a unified diff and
+  understands PulseLoop reading `GTokens.Colors.*`; AGENTS.md: agents merge their own PRs here.
+- **NotTheOmiAIApp:** copy `generated/uikit/UiTokens.java`; in `Ui.java` read `PANEL`, `ON_PANEL`,
+  `ON_CORAL`, `SNACKBAR_ACTION` as pairs, use `ON_CORAL` on Stop, `SNACKBAR_ACTION` on the
+  snackbar, and draw the tab badge 12sp coral-text on coral-soft (A-3).
+- **PulseLoop:** nothing changes in value; adopt `generated/pulseloop/GTokens.kt` (comment text
+  for `coral` changed).
+
 ## 0.1.0 — 2026-11-01
 
 First version: captures what both apps ship today. No value changed.

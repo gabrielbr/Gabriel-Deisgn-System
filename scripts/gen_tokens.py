@@ -41,7 +41,10 @@ def uikit_java(t):
             continue
         light = v if isinstance(v, str) else v["light"]
         dark = light if isinstance(v, str) else v.get("dark", light)
-        out += [f"    /** {tok.get('usage', '')} */",
+        note = tok.get("usage", "")
+        if tok.get("pair"):
+            note += f" Shares its light value with another token: read it as color(context, {n}, {n}_DARK), never through dark(int)."
+        out += [f"    /** {note} */",
                 f"    public static final int {n} = {argb(light)};",
                 f"    public static final int {n}_DARK = {argb(dark)};"]
     out += ["", "    /** The light tokens in order, and their dark values, so a light token can be looked up ({@link #dark(int)}). */",

@@ -32,6 +32,11 @@
 - **Every core token appears in every layer.** A value only one app uses belongs in that layer.
 - **Colours** are `#RRGGBB`, or `#AARRGGBB` for a deliberate translucency. A dark-only layer may
   omit `light`. `"{name}"` aliases another colour of the same layer.
+- **`"pair": true`** marks a uikit colour whose light value equals an earlier token's while its
+  dark value differs (`panel` = `ink` in light). The Views kit finds a dark value by its light value
+  (`UiTokens.dark(int)`, `Ui.color(c, X)`), so these must be read as
+  `UiTokens.color(context, X, X_DARK)`. `check_tokens.py` requires the mark where it is needed and
+  rejects it where it isn't.
 - **`alias.pulseloop`** names the `PulseColors` (or `FairyMode.Palette`) property the token must
   equal; `drift.py` uses it. A new PulseLoop colour needs one.
 - **`contrast`** lists every text/background pair a component uses. `themes` narrows a pair to some
@@ -55,6 +60,6 @@ apps; it must be back to 0 once the app PRs land.
 | File | Consumer | How it is used |
 |---|---|---|
 | `generated/uikit/UiTokens.java` | NotTheOmiAIApp `ui-kit/src/main/java/br/gabriel/ui/UiTokens.java` | copied over as is |
-| `generated/pulseloop/GTokens.kt` | PulseLoop `app/src/main/java/com/pulseloop/ui/theme/GTokens.kt` | 🟡 not yet adopted: `PulseColors` still holds the literals, `drift.py` checks they match |
+| `generated/pulseloop/GTokens.kt` | PulseLoop `app/src/main/java/com/pulseloop/ui/theme/GTokens.kt` | copied over as is; `PulseColors` reads `GTokens.Colors.*` (🟡 adopted in PulseLoop PR, see docs/consuming.md) |
 | `generated/web/*.css` | prototypes, design canvases | `--gds-*` custom properties |
 | `DESIGN.md` frontmatter | Impeccable and other DESIGN.md-aware tools | read only |

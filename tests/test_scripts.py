@@ -3,6 +3,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "scripts"))
+import check_tokens  # noqa: E402
 import gen_tokens  # noqa: E402
 import tokens_lib as tl  # noqa: E402
 
@@ -34,6 +35,32 @@ class TokensLibTest(unittest.TestCase):
     def test_generation_is_deterministic(self):
         t = tl.load()
         self.assertEqual(gen_tokens.uikit_java(t), gen_tokens.uikit_java(t))
+
+
+
+class SharedLightTest(unittest.TestCase):
+    def tokens(self, pair):
+        panel = {"name": "panel", "value": {"light": "#17161A", "dark": "#000000"}}
+        if pair is not None:
+            panel["pair"] = pair
+        return {"core": {"color": [{"name": "ink", "value": {"light": "#17161A", "dark": "#F2F2F2"}}]},
+                "layers": {"kit": {"themes": ["light", "dark"], "color": ["@ink", panel]}}}
+
+    def run_check(self, t):
+        check_tokens.errors.clear()
+        check_tokens.check_shared_light(t)
+        return list(check_tokens.errors)
+
+    def test_collision_needs_pair(self):
+        self.assertEqual(len(self.run_check(self.tokens(None))), 1)
+
+    def test_pair_accepted(self):
+        self.assertEqual(self.run_check(self.tokens(True)), [])
+
+    def test_stale_pair_rejected(self):
+        t = self.tokens(True)
+        t["layers"]["kit"]["color"][1]["value"]["light"] = "#222222"
+        self.assertEqual(len(self.run_check(t)), 1)
 
 
 if __name__ == "__main__":

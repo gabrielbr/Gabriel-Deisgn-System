@@ -65,6 +65,29 @@ def check_layers(t):
                     err(f"{name}.type.{st['name']}: {size}px is not on the layer's typeScale")
 
 
+def check_shared_light(t):
+    """Views kits look a dark value up by its light value (UiTokens.dark(int)). Two tokens with one
+    light value and different dark values collapse to the first one, so the later one must be marked
+    "pair" (read as color(context, X, X_DARK)), and a "pair" mark with no collision is stale."""
+    for name, layer in t["layers"].items():
+        if "light" not in layer["themes"] or "dark" not in layer["themes"]:
+            continue
+        colours = colour_map(t, name)
+        tokens = resolve(t, name)["color"]
+        seen = {}
+        for tok in tokens:
+            if isinstance(tok["value"], str):  # an alias shares its target's dark value too
+                continue
+            light, dark = colours[tok["name"]]["light"].upper(), colours[tok["name"]]["dark"].upper()
+            first = seen.get(light)
+            clash = first is not None and first[1] != dark
+            if clash and not tok.get("pair"):
+                err(f"{name}.color.{tok['name']}: same light value as {first[0]} with a different dark value; mark it \"pair\": true")
+            if tok.get("pair") and not clash:
+                err(f"{name}.color.{tok['name']}: marked pair but shares no light value with an earlier token")
+            seen.setdefault(light, (tok["name"], dark))
+
+
 def check_contrast(t):
     for pair in t["contrast"]:
         for lname in pair["layers"]:
@@ -114,6 +137,7 @@ def check_generated():
 def main():
     t = load()
     check_layers(t)
+    check_shared_light(t)
     check_contrast(t)
     check_version(t)
     check_generated()

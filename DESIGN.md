@@ -1,6 +1,6 @@
 ---
 name: Gabriel Design System
-version: 0.1.0
+version: 0.2.0
 # GENERATED from tokens/tokens.json by scripts/gen_tokens.py. Edit the tokens, not this block.
 colors:
   page: "#F2F2F2"
@@ -110,7 +110,8 @@ accent and one alert colour. Every colour has a light and a dark value (PulseLoo
 
 ### Secondary
 
-- **coral** `#E9554D` / `#FF7A70`: the Stop button and the recording dot only.
+- **coral** `#E9554D` / `#FF7A70`: the Stop button and the recording dot only. Its label is
+  **on-coral** `#17161A` (5.0:1 / 7.1:1); white on coral fails.
 - **coral-text** `#B8322A` / `#FF9A92` on page, surface or **coral-soft**: alerts and destructive
   actions. Never white 12px text on a coral fill.
 
@@ -202,6 +203,6 @@ the frame while the screen waits on something the user asked for.
 ### Don't:
 
 - Use mint for success, connected or decoration.
-- Put white text on mint, or small white text on coral.
+- Put white text on mint or on coral.
 - Add a second typeface, an emoji icon, a shadow or a gradient.
 - Show engine, vendor or exception names, or "updated 20 s ago", in the UI.

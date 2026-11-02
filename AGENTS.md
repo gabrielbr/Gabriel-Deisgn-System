@@ -106,6 +106,12 @@ These are the system's non-negotiables. The reasons are in [docs/foundations.md]
   ([docs/content.md](docs/content.md)); no engine, vendor or exception names in UI text.
 - **Copy.** Short, plain, sentence case, verb first on buttons; English and Brazilian Portuguese.
 - **Icons.** One line set, 22dp, stroke 1.75, `ink` or `muted`. Never emoji as icons.
+- **Every app updates itself the same way** ([docs/self-update.md](docs/self-update.md)): a check
+  on every return to the foreground (at most every 15 minutes), the "Update available" sheet with the
+  release notes and Update · {size} / Later, progress while downloading (with Cancel), Android's confirmation, and a "Check
+  for updates" row in About. A download installs only when its SHA-256 matches the release's
+  `SHA256SUMS.txt` and its signing key matches the installed app. Every app's release publishes
+  that file. A new app ships with this from its first release.
 - **Fairy mode is part of the system.** When the profile name is Tatá's, the brand turns pink
   ([docs/fairy-mode.md](docs/fairy-mode.md), `variants.fairy`). It swaps brand tokens only, never
   neutrals, alerts, semantic or data colours. A new brand token (anything mint, or on mint) gets its

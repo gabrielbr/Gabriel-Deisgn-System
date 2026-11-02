@@ -3,6 +3,23 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.4.0 — 2026-11-02
+
+Self-update becomes a system component: PulseLoop's update feature is the standard for every app.
+
+- docs/self-update.md: what the person sees (the "Update available" sheet, About's "Check for
+  updates"), the rules (foreground checks at most every 15 minutes with ETag, what counts as newer,
+  which file, the checks before install, honest failures, privacy, permissions), the words in English
+  and Portuguese, and how each platform builds it.
+- A download installs only when its SHA-256 matches the release's `SHA256SUMS.txt` (from GMind) and
+  its signing key matches the installed app.
+- Components: Update sheet, Check for updates. AGENTS.md rule. Divergence D-11.
+- **PulseLoop:** publish `SHA256SUMS.txt` with each release and refuse a download that doesn't
+  match; translate the update texts.
+- **NotTheOmiAIApp:** each app (GVoice, GMind, GMoney, GHealth, GDesk) updates itself through
+  `br.gabriel.ui.update`; GMind keeps first installs of GMoney, GHealth and GDesk. GMoney and GHealth
+  gain internet access and every app gains install permission (owner's call).
+
 ## 0.3.0 — 2026-11-01
 
 Fairy mode joins the system: the pink variant PulseLoop shows when the profile name is Tatá's.

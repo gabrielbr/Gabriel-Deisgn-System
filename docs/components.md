@@ -26,6 +26,8 @@ PulseLoop's `ui/components`. Status: ✅ both, 🟡 one app, ⬜ to build.
 | Skeleton | grey bars instead of "Loading…" text | `Ui.skeletonRow` | — | 🟡 |
 | Ring / gauge | swept fill 900ms, dithered track, spoken summary | — | `VitalRingGauge`, `ActivityRings` | 🟡 |
 | Charts | one message per chart, zone colours, spoken summary | — | `Charts`, `ZoneLineChart` | 🟡 |
+| Update sheet | "Update available · {version}", release notes, Update · {size} (primary) / Later; "Downloading… n%" with the frame's line, Later becomes Cancel — [self-update.md](self-update.md) | `Ui.updateSheet` | `UpdateDialog` | 🟡 |
+| Check for updates | About row: version, a secondary button, one result line; release builds only — [self-update.md](self-update.md) | `Ui.checkForUpdates` | `CheckForUpdatesButton` | 🟡 |
 | Fairy transformation | once, over everything; glow, wand, sparkles, "Tatá, te amo!"; 4.2s (1.4s reduced) — [fairy-mode.md](fairy-mode.md) | ⬜ | `FairyTransformOverlay` | 🟡 |
 
 Rules for every component: built from tokens only; 48dp targets; TalkBack reads label + value +

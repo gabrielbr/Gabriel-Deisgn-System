@@ -16,8 +16,10 @@ apps, 🟡 in one app, ⬜ planned.
   need a ground. White on coral is 3.6:1 (light) and 2.5:1 (dark): never.
 - **Semantic ≠ brand** (PulseLoop 🟡): `success` green for good / in range / connected, `warning`
   amber, `info` cyan. Mint never means success.
-- **Data palette** (PulseLoop 🟡): one hue per metric, a zone scale (low → good → normal →
+- **Data palette** (PulseLoop 🟡, Cochilo 🟡): one hue per metric, a zone scale (low → good → normal →
   borderline → elevated → high → critical) and four sleep stages. Data colours appear only on data.
+  Cochilo (its palette is in its own repo since 0.28.0, docs/products.md) has one hue per event (night, nap, feed, pump, diaper, daylight), light and dark, always
+  next to a word.
 - **Dark is designed, not inverted.** Dark values are chosen per token (coral lightens to stay
   legible, the panel goes to pure black).
 
@@ -70,4 +72,4 @@ nothing else moves. See [fairy-mode.md](fairy-mode.md).
 ## Iconography ✅
 
 One line set, 22dp, stroke 1.75, tinted `ink` or `muted` (`assets/icons/android/gg_ic_*.xml`).
-Monograms `GV_` / `GM_`: an ink square, Ubuntu Mono bold, white letters (`assets/logos/`). Never emoji.
+Monograms `GV_` / `GM_` / `CO_`: an ink square, Ubuntu Mono bold, white letters (`assets/logos/`). Never emoji.

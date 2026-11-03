@@ -32,6 +32,35 @@ class TokensLibTest(unittest.TestCase):
     def test_css_moves_alpha_last(self):
         self.assertEqual(gen_tokens.css_hex("#2E43F3B7"), "#43F3B72E")
 
+    def product(self):
+        """A product layer the way a product repo keeps it (docs/products.md): every core token,
+        three themes with night falling back to dark, and a partner brand that swaps mint."""
+        t = tl.load()
+        core = tl.core_index(t)
+        layer = {g: ["@" + n for n in core[g]] for g in tl.GROUPS}
+        layer.update(themes=["light", "dark", "night"], theme_fallback={"night": "dark"}, brand="p",
+                     type=[{"group": "body", "styles": [{"name": "body", "fontSize": "16px", "lineHeight": "24px"}]}])
+        t["layers"] = {"app": layer}
+        t["brands"] = {"p": {"name": "Partner", "type": {"family": "\"Partner Sans\", sans-serif", "faces": ["p.ttf"]},
+                             "color": [{"replaces": "mint", "value": {"light": "#5DC2BB", "dark": "#5DC2BB"}}]}}
+        return t
+
+    def test_compose_writes_a_product_layer(self):
+        kt = gen_tokens.compose_kt(self.product(), "app", "com.example.ui.theme", "XTokens", ["Values for X."])
+        self.assertIn("package com.example.ui.theme", kt)
+        self.assertIn("object XTokens {", kt)
+        self.assertIn(" * Values for X.", kt)
+        light = kt[kt.index("val Light"):kt.index("val Dark")]
+        dark = kt[kt.index("val Dark"):kt.index("val Night")]
+        night = kt[kt.index("val Night"):kt.index("object Spacing")]
+        # Every theme has every role; night, not spelled out, falls back to dark.
+        self.assertEqual(light.count("= Color("), dark.count("= Color("))
+        self.assertEqual(dark.replace("Dark", "Night"), night)
+        # The brand swaps a colour role and names the family, nothing else.
+        self.assertIn("mint = Color(0xFF5DC2BB)", light)
+        self.assertIn('const val fontFamily = "Partner Sans"', kt)
+        self.assertIn("const val bodySize = 16", kt)
+
     def test_generation_is_deterministic(self):
         t = tl.load()
         self.assertEqual(gen_tokens.uikit_java(t), gen_tokens.uikit_java(t))
@@ -44,7 +73,7 @@ class SharedLightTest(unittest.TestCase):
         if pair is not None:
             panel["pair"] = pair
         return {"core": {"color": [{"name": "ink", "value": {"light": "#17161A", "dark": "#F2F2F2"}}]},
-                "layers": {"kit": {"themes": ["light", "dark"], "color": ["@ink", panel]}}}
+                "layers": {"uikit": {"themes": ["light", "dark"], "color": ["@ink", panel]}}}
 
     def run_check(self, t):
         check_tokens.errors.clear()
@@ -59,9 +88,42 @@ class SharedLightTest(unittest.TestCase):
 
     def test_stale_pair_rejected(self):
         t = self.tokens(True)
-        t["layers"]["kit"]["color"][1]["value"]["light"] = "#222222"
+        t["layers"]["uikit"]["color"][1]["value"]["light"] = "#222222"
         self.assertEqual(len(self.run_check(t)), 1)
 
+
+
+class BrandTest(unittest.TestCase):
+    def tokens(self, replaces="mint", themes=("light", "dark")):
+        return {
+            "core": {"color": [{"name": "mint", "value": {"light": "#43F3B7", "dark": "#43F3B7"}}]},
+            "layers": {"app": {"themes": ["light", "dark"], "brand": "b",
+                               "color": ["@mint", {"name": "event-nap", "value": {"light": "#1C7ED6", "dark": "#5BA8FF"}}]}},
+            "brands": {"b": {"name": "B", "type": {"family": "X", "faces": ["x.ttf"]},
+                             "color": [{"replaces": replaces, "value": {th: "#5DC2BB" for th in themes}}]}},
+        }
+
+    def run_check(self, t):
+        check_tokens.errors.clear()
+        check_tokens.check_brands(t)
+        return list(check_tokens.errors)
+
+    def test_brand_swaps_a_colour_role(self):
+        t = self.tokens()
+        self.assertEqual(self.run_check(t), [])
+        self.assertEqual(tl.colour_map(t, "app")["mint"], {"light": "#5DC2BB", "dark": "#5DC2BB"})
+        self.assertEqual(tl.colour_map(t, "app")["event-nap"]["light"], "#1C7ED6")
+
+    def test_brand_may_not_touch_data_colours(self):
+        self.assertEqual(len(self.run_check(self.tokens(replaces="event-nap"))), 1)
+
+    def test_brand_covers_every_theme(self):
+        self.assertEqual(len(self.run_check(self.tokens(themes=("light",)))), 1)
+
+    def test_brand_swaps_nothing_but_colour_and_type(self):
+        t = self.tokens()
+        t["brands"]["b"]["radius"] = []
+        self.assertEqual(len(self.run_check(t)), 1)
 
 
 class VariantTest(unittest.TestCase):

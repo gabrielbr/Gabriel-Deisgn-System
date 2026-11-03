@@ -68,9 +68,39 @@ def colour_map(t, layer_name):
             return {th: v for th in layer["themes"]}
         return v
 
+    # A theme a token doesn't spell out falls back to another (layer "theme_fallback", e.g.
+    # a night theme that falls back to dark), so a theme only lists the roles it changes.
+    fallback = layer.get("theme_fallback", {})
+
+    def filled(v):
+        v = dict(v)
+        for th in layer["themes"]:
+            if th not in v and th in fallback and fallback[th] in v:
+                v[th] = v[fallback[th]]
+        return v
+
     for name in raw:
-        out[name] = value(name)
+        out[name] = filled(value(name))
+    # A brand (docs/brands.md) swaps colour roles after aliases are followed, so every reader
+    # (generator, checks, drift) sees the app as it ships.
+    b = brand(t, layer_name)
+    if b:
+        for tok in b.get("color", []):
+            if tok["replaces"] in out:
+                out[tok["replaces"]] = filled({th: tok["value"][th] for th in layer["themes"] if th in tok["value"]})
     return out
+
+
+def brand(t, layer_name):
+    """The brand a layer is dressed in (its "brand" key), or None."""
+    name = t["layers"][layer_name].get("brand")
+    return dict(t["brands"][name], key=name) if name else None
+
+
+def brand_usage(t, layer_name):
+    """{colour name: usage} for the colours a layer's brand replaces."""
+    b = brand(t, layer_name)
+    return {tok["replaces"]: tok.get("usage", "") for tok in b.get("color", [])} if b else {}
 
 
 def const(name):

@@ -11,6 +11,9 @@ Exit 1 on any drift. What it compares:
                   literal or a GTokens.Colors reference, against the token whose alias.pulseloop
                   names it; and PulseType.SCALE against typeScale. A colour the app defines that no
                   token claims is reported too: it is a value outside the system.
+
+A product that keeps its own layer and brand (Cochilo, docs/products.md) checks its own drift with
+its build (Cochilo: python3 design/build.py --check), so it isn't compared here.
 """
 import argparse
 import difflib
@@ -39,6 +42,7 @@ def drift_uikit(repo):
     diff = difflib.unified_diff(theirs, ours, "app UiTokens.java", "generated/uikit/UiTokens.java", lineterm="", n=0)
     return ["NotTheOmiAIApp UiTokens.java differs (copy generated/uikit/UiTokens.java in):\n  "
             + "\n  ".join(line for line in diff)]
+
 
 
 LITERAL = re.compile(r"Color\(0x([0-9A-Fa-f]{8})\)")

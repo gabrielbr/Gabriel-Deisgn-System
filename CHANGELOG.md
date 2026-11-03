@@ -3,6 +3,17 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.30.0 — 2026-11-03
+
+**A heart in the line set** (minor: an icon added; no token or value changes).
+`assets/icons/android/gg_ic_heart.xml` is the same line set as the other icons: 22dp, a 24 viewport,
+stroke 1.75, round caps and joins, tinted `ink` or `muted`. It's for care, favourites and notes
+from a person, never for "like" counts.
+
+What each app has to do:
+- **Cochilo:** copy it in for the From Tatá tab (Cochilo 0.44.0).
+- **The others:** nothing until they need it.
+
 ## 0.29.0 — 2026-11-03
 
 **Three design skills, in every app** (minor: a rule added; no token or value changes).

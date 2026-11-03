@@ -9,6 +9,7 @@
 - [ ] `audits/<date>-<topic>.md` added
 - [ ] graphic-design-fundamentals §13 checklist run
 - [ ] impeccable audit (native) run; critique too if visual
+- [ ] less-is-more run: what was cut or moved, taps on common actions don't rise
 - [ ] No new critical / P0 / P1
 
 ## Checks

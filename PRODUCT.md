@@ -13,6 +13,9 @@ ships from this system (PulseLoop has an iOS sibling outside it).
   `UiTokens` (generated from here), `Ui` components, `UiState`, `Dates`, `Theme`, `Motion`.
 - PulseLoopAndroid: Jetpack Compose with Material 3 themed through `PulseColors`, `PulseType`,
   `Motion`, `Dither`, `DitherTransition`.
+- Cochilo: Jetpack Compose; `CTokens` generated in Cochilo's own `design/` from this core, its
+  layer and the Tatá Slings brand ([docs/products.md](docs/products.md)), read through
+  `CochiloTheme`, and a small component kit in `br.gabriel.cochilo.ui.kit`.
 
 ## Users
 
@@ -25,6 +28,8 @@ and Brazilian Portuguese. PulseLoop also has public testers with smart rings.
 - **GMind** keeps conversations, mail, calendar and recordings searchable and answers with sources.
 - **GMoney**, **GHealth**: money and health pages over GMind's data. **GDesk**: the desk robot app.
 - **PulseLoop**: a smart-ring health app (sleep, heart, activity, coach).
+- **Cochilo**: a baby sleep tracker for the owner's family: logs sleep, feeds, pumping, diapers and
+  daylight, predicts the next nap from the baby's own history, and keeps every byte on the phone.
 
 ## Positioning
 
@@ -32,7 +37,8 @@ Personal, private, calm tools. Nothing leaves the phone that doesn't have to, an
 
 ## Operating Context
 
-Glanced at on the move, one-handed, often in the dark (PulseLoop at night). Impeccable mode:
+Glanced at on the move, one-handed, often in the dark (PulseLoop at night; Cochilo at 3am with a
+baby in one arm). Impeccable mode:
 **Operate** for app screens, **Read** for this repo's docs.
 
 ## Brand Commitments

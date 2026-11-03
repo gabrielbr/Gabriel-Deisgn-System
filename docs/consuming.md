@@ -27,6 +27,18 @@ retired in NotTheOmiAIApp#245, which adds `scripts/sync_design_system.py`: it co
    design files and the app move together").
 4. Run `./gradlew :app:testDebugUnitTest` (includes `PulseTypeScaleTest`).
 
+## Cochilo (builds on the core in its own repo, since 0.28.0)
+
+Cochilo keeps its layer and the Tatá Slings brand in its own `design/` ([products.md](products.md)),
+so nothing is copied from `generated/`. After a release here:
+
+1. In Cochilo, re-sync `design/core/` from the release tag (its `design/core/CORE.md` has the
+   commands): `core.json` and `scripts/`.
+2. `python3 design/build.py` rewrites its `CTokens.kt`; `python3 design/build.py --check` must pass.
+3. If a component rule changed, change the kit in `app/src/main/java/br/gabriel/cochilo/ui/kit/`.
+4. Run that repo's checks (its AGENTS.md "Before you push"), re-record its screenshots if a value
+   moved.
+
 ## Check
 
 ```sh

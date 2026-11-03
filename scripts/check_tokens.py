@@ -68,9 +68,10 @@ def check_layers(t):
 def check_shared_light(t):
     """Views kits look a dark value up by its light value (UiTokens.dark(int)). Two tokens with one
     light value and different dark values collapse to the first one, so the later one must be marked
-    "pair" (read as color(context, X, X_DARK)), and a "pair" mark with no collision is stale."""
+    "pair" (read as color(context, X, X_DARK)), and a "pair" mark with no collision is stale.
+    Only the Views kit (uikit) looks colours up this way; Compose layers read Light and Dark palettes."""
     for name, layer in t["layers"].items():
-        if "light" not in layer["themes"] or "dark" not in layer["themes"]:
+        if name != "uikit" or "light" not in layer["themes"] or "dark" not in layer["themes"]:
             continue
         colours = colour_map(t, name)
         tokens = resolve(t, name)["color"]
@@ -86,6 +87,44 @@ def check_shared_light(t):
             if tok.get("pair") and not clash:
                 err(f"{name}.color.{tok['name']}: marked pair but shares no light value with an earlier token")
             seen.setdefault(light, (tok["name"], dark))
+
+
+DATA_PREFIXES = ("event-", "metric-", "stage-", "zone-", "fairy-")
+
+
+def check_brands(t):
+    """A brand swaps colour roles and the type family, nothing else (docs/brands.md): each colour it
+    defines replaces a colour the layers that wear it have, never a data colour, with a value for
+    every theme those layers ship; and it names its family and faces."""
+    brands = t.get("brands", {})
+    for bname, b in brands.items():
+        if bname.startswith("$"):
+            continue
+        if not b.get("name"):
+            err(f"brands.{bname}: no name")
+        ty = b.get("type", {})
+        if not ty.get("family") or not ty.get("faces"):
+            err(f"brands.{bname}.type: needs family and faces")
+        extra = set(b) - {"name", "doc", "source", "type", "color", "$comment"}
+        if extra:
+            err(f"brands.{bname}: a brand swaps colours and the type family only, not {sorted(extra)}")
+    for lname, layer in t["layers"].items():
+        bname = layer.get("brand")
+        if not bname:
+            continue
+        if bname not in brands:
+            err(f"{lname}: brand {bname!r} is not in brands")
+            continue
+        names = {tok["name"] for tok in resolve(t, lname)["color"]}
+        for tok in brands[bname].get("color", []):
+            target = tok.get("replaces")
+            if target not in names:
+                err(f"brands.{bname}: replaces {target!r}, which {lname} doesn't have")
+            if target and target.startswith(DATA_PREFIXES):
+                err(f"brands.{bname}: replaces {target}, a data colour; data colours stay the system's")
+            for th in layer["themes"]:
+                if th not in tok.get("value", {}) and th not in layer.get("theme_fallback", {}):
+                    err(f"brands.{bname}.{target}: no {th} value, and {lname} ships {th}")
 
 
 def check_variants(t):
@@ -176,6 +215,7 @@ def main():
     t = load()
     check_layers(t)
     check_shared_light(t)
+    check_brands(t)
     check_variants(t)
     check_contrast(t)
     check_version(t)

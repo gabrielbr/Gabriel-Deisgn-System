@@ -1,8 +1,14 @@
 # Working in this repo (for agents)
 
-This repo is the **source of truth for the design of every Gabriel app**. Tokens, components,
-rules, fonts, icons and marks are decided here and copied out to the apps. An app never invents a
-colour, size, radius, duration or component of its own; if it needs one, it is added here first.
+This repo is the **source of truth for the design of every Gabriel app**, and the owner's
+boilerplate: it's dressed in Gabriel's brand. Tokens, components, rules, fonts, icons and marks are
+decided here and copied out to the apps. An app never invents a colour, size, radius, duration or
+component of its own; if it needs one, it is added here first.
+
+**The one exception: a product with a partner's brand** (since 0.28.0). Its brand and its product
+layer live in its own repo and are built with this repo's scripts, unchanged
+([docs/products.md](docs/products.md)). Only what every app can use comes here. Cochilo (a Tatá
+Slings product) is the first.
 
 Start with [README.md](README.md) (what is here), then [DESIGN.md](DESIGN.md) (the system in one
 page) and [docs/](docs/) (the long version).
@@ -13,6 +19,7 @@ page) and [docs/](docs/) (the long version).
 |---|---|---|---|
 | GVoice, GMind, GMoney, GHealth, GDesk | `gabrielbr/NotTheOmiAIApp` (`ui-kit/`, `br.gabriel.ui`) | `uikit` | Android Views (Java), light + dark |
 | PulseLoop | `gabrielbr/PulseLoopAndroid` (`com.pulseloop.ui.theme`) | `pulseloop` | Jetpack Compose (Kotlin), dark only |
+| Cochilo (da Tatá Slings) | `gabrielbr/Cochilo` (`br.gabriel.cochilo.ui.theme`) | none here: its layer and the `tata-slings` brand are in its `design/` ([docs/products.md](docs/products.md)) | Jetpack Compose (Kotlin), light, dark and night |
 
 GMind is called "Sentient" in its code. A new app gets a layer and a row here before its first screen.
 
@@ -68,7 +75,9 @@ it passes so the exception is removed.
    P0 / P1 that the change introduces, and there are no unresolved review threads. The owner's
    standing instruction (2026-11-01): in this repo, always merge to main; don't leave PRs waiting.
    This applies to this repo only; the app repos keep their own merge rules.
-8. After merge, **sync the apps** ([docs/consuming.md](docs/consuming.md)): open a PR in each
+8. After merge, **sync the apps**. For a product that builds on the core in its own repo (Cochilo),
+   that's a PR there that re-syncs its `design/core/` (its `design/core/CORE.md` says how); it
+   checks itself with its own build. For the apps with a layer here ([docs/consuming.md](docs/consuming.md)), open a PR in each
    affected app repo that copies the generated file in, and run
    `python3 scripts/drift.py --notheomi ../NotTheOmiAIApp --pulseloop ../PulseLoopAndroid`
    until it reports 0 differences. The app PR follows that repo's own rules (its tests, its
@@ -89,9 +98,11 @@ These are the system's non-negotiables. The reasons are in [docs/foundations.md]
 
 - **Tokens only.** No literal dp, sp, px, ms or colour in a screen. If the scale lacks the gap you
   need, the layout is wrong, not the scale. Spacing is 4, 8, 12, 16, 24, 32, 40, 48, 64.
-- **One brand, one accent.** Mint `#43F3B7` is the brand and "tap here". Text on mint is `on-mint`
+- **One brand, one accent.** Mint `#43F3B7` is the brand and "tap here" (an app dressed in a
+  partner's brand swaps the accent and the neutrals for the partner's, below). Text on mint is `on-mint`
   or `ink`, never white. Good/in-range is `success`, not mint. One filled mint action per screen.
-- **One family.** Ubuntu Mono everywhere (regular, bold, bold italic). Nothing that carries meaning
+- **One family.** Ubuntu Mono everywhere (regular, bold, bold italic), or the brand's family in an
+  app that wears a brand: still exactly one family per app. Nothing that carries meaning
   under 12sp. Sizes come from the layer's type roles, never inline.
 - **Contrast.** Text 4.5:1 in every theme an app ships; graphics and boundaries 3:1. Never colour
   as the only carrier of meaning. Every new colour pair a component uses goes in `contrast`.
@@ -112,6 +123,11 @@ These are the system's non-negotiables. The reasons are in [docs/foundations.md]
   for updates" row in About. A download installs only when its SHA-256 matches the release's
   `SHA256SUMS.txt` and its signing key matches the installed app. Every app's release publishes
   that file. A new app ships with this from its first release.
+- **Brands dress an app, they don't fork the system** ([docs/brands.md](docs/brands.md),
+  `brands.*`). A brand swaps the app's colour roles and its one type family, and adds a mark.
+  It never touches spacing, radii, sizes, motion, the type scale, data colours, components or any
+  rule; `check_tokens.py` enforces it and re-checks every contrast pair with the brand on.
+  A partner's brand is kept in the product's repo (Cochilo wears `tata-slings`, kept in Cochilo).
 - **Fairy mode is part of the system.** When the profile name is Tatá's, the brand turns pink
   ([docs/fairy-mode.md](docs/fairy-mode.md), `variants.fairy`). It swaps brand tokens only, never
   neutrals, alerts, semantic or data colours. A new brand token (anything mint, or on mint) gets its

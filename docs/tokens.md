@@ -68,3 +68,6 @@ apps; it must be back to 0 once the app PRs land.
 | `generated/pulseloop/GTokens.kt` | PulseLoop `app/src/main/java/com/pulseloop/ui/theme/GTokens.kt` | copied over as is; `PulseColors` reads `GTokens.Colors.*` (🟡 adopted in PulseLoop PR, see docs/consuming.md) |
 | `generated/web/*.css` | prototypes, design canvases | `--gds-*` custom properties |
 | `DESIGN.md` frontmatter | Impeccable and other DESIGN.md-aware tools | read only |
+
+A product that keeps its own layer (Cochilo) generates its file in its own repo with
+`gen_tokens.compose_kt` ([products.md](products.md)); nothing for it is in `generated/`.

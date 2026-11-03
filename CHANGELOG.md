@@ -3,6 +3,25 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.29.0 — 2026-11-03
+
+**Three design skills, in every app** (minor: a rule added; no token or value changes).
+- **New skill.** `less-is-more` is in `.claude/skills/`. It decides what earns its place on a
+  screen: five questions per element, screen and flow rules, sources and a score. It came out of
+  Cochilo's 0.43.0 declutter.
+- **The rule.** Every change here is now audited with three skills: impeccable,
+  graphic-design-fundamentals and less-is-more. The template and the PR checklist have a
+  less-is-more section.
+- **The apps.** Every app built on this boilerplate carries the three skills in its own
+  `.claude/skills/` and requires them in its AGENTS.md on every screen and flow
+  (AGENTS.md, `docs/products.md` "The three design skills").
+
+What each app has to do:
+- **Cochilo:** copy the three skills, with a `VENDORED.md`, and adopt the rule. Done in Cochilo
+  0.43.0. No core re-sync is needed: the tokens are unchanged.
+- **NotTheOmiAIApp (uikit) and PulseLoop:** copy `.claude/skills/{impeccable,graphic-design-fundamentals,less-is-more}`
+  and add the rule text from `docs/products.md` to the repo's AGENTS.md, in the next sync PR.
+
 ## 0.28.0 — 2026-11-03
 
 **Products keep their own brand and layer** (minor: no core value changes; Cochilo's layer, the

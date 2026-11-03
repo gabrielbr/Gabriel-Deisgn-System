@@ -39,7 +39,7 @@ GMind is called "Sentient" in its code. A new app gets a layer and a row here be
 ## Every change is audited — no exceptions
 
 **Any change to this repo** (a token, a rule, a component spec, an asset, a doc that states a
-design rule) **is audited with both skills before it is merged**:
+design rule) **is audited with all three skills before it is merged**:
 
 1. **`graphic-design-fundamentals`** — run its §13 critique checklist on the change: hierarchy,
    contrast, alignment and grid, spacing from the system, typography, colour (grayscale, accent
@@ -47,8 +47,11 @@ design rule) **is audited with both skills before it is merged**:
 2. **`impeccable`** — run `audit` (native: `reference/audit.native.md`, scored against
    `reference/android.md`) and, for anything visual, `critique`. Score the five dimensions and tag
    findings P0–P3.
+3. **`less-is-more`**: run its five questions on every element the change adds or touches
+   (helps now, duplicate, understand once, weak for the goal, rare), list what was cut or moved,
+   and score it. Cutting never adds a tap to a common action.
 
-Both are vendored in [`.claude/skills/`](.claude/skills/) so every session in this repo has them
+All three are vendored in [`.claude/skills/`](.claude/skills/) so every session in this repo has them
 (see [`.claude/skills/VENDORED.md`](.claude/skills/VENDORED.md)). If a session cannot load one
 (for example Impeccable's launcher is blocked), read its `SKILL.md` and references directly and
 apply them by hand, and say so in the audit.
@@ -61,6 +64,28 @@ with an unresolved P0/P1 or "critical" finding it introduces, is not merged. Pro
 Findings that already exist in the apps are tracked, not ignored: a failing contrast pair gets
 `"known": "<audit id>"` in `tokens.json` so CI keeps warning until it is fixed, and fails the day
 it passes so the exception is removed.
+
+## Every app built on this boilerplate uses the three skills
+
+The three design skills (since 0.29.0) are part of the boilerplate, like the tokens:
+- **impeccable**;
+- **graphic-design-fundamentals** (the owner's design basics);
+- **less-is-more**.
+
+Every app that uses this system, whether its layer is here or it builds on the core in its own
+repo (docs/products.md), must:
+1. **Carry the three skills** in its own `.claude/skills/`, copied from this repo's
+   [`.claude/skills/`](.claude/skills/), with a `VENDORED.md` saying from which version. A
+   product may keep its own copy of less-is-more with its own examples, but it keeps the five
+   questions and the output.
+2. **Require them in its AGENTS.md** for every new or changed screen, flow, sheet, notification
+   and widget: used while designing, not only at the end, and written up in that app's audit
+   file, one section per skill. The rule text to copy is in
+   [docs/products.md](docs/products.md#the-three-design-skills).
+3. **Re-copy them when they change here.** A skill update here is a release (patch), and its
+   CHANGELOG entry tells every app to re-copy.
+
+A new app gets the three skills in its first commit, with its row in the table above.
 
 ## How a change goes in
 
@@ -139,7 +164,7 @@ These are the system's non-negotiables. The reasons are in [docs/foundations.md]
 
 - Edit `generated/` or `DESIGN.md`'s frontmatter by hand.
 - Change a value in an app without changing it here first (that is drift; `drift.py` reports it).
-- Merge without the two-skill audit, or skip/loosen a check to get green.
+- Merge without the three-skill audit, or skip/loosen a check to get green.
 - Delete a "known" contrast exception without fixing the pair.
 - Add a font, an icon set or a colour that isn't in `tokens.json`.
 - Commit secrets, or anything from an app that isn't design (code, data, keys).

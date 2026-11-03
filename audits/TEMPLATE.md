@@ -39,6 +39,18 @@ Issues (critical / important / polish), each with the principle and the fix.
 
 Findings P0–P3: issue, location, impact, guideline, recommendation, suggested command.
 
+## less-is-more
+
+| Element | Question (1–5) | Kept / moved / merged / removed, and where |
+|---|---|---|
+
+| Dimension | 0–4 |
+|---|---|
+| Elements per screen, compared with before | |
+| Duplicates left | |
+| Text to read when tired | |
+| Taps on the common actions (must not rise) | |
+
 ## Evidence
 
 `check_tokens.py` and `drift.py` output; contrast ratios; screenshots.

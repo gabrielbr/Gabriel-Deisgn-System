@@ -39,6 +39,13 @@ so nothing is copied from `generated/`. After a release here:
 4. Run that repo's checks (its AGENTS.md "Before you push"), re-record its screenshots if a value
    moved.
 
+## Every app: the three design skills (since 0.29.0)
+
+Each app's repo carries `.claude/skills/impeccable`, `graphic-design-fundamentals` and
+`less-is-more`, copied from this repo's `.claude/skills/`, and its AGENTS.md requires them on
+every screen and flow ([products.md](products.md#the-three-design-skills)). When a release here
+changes a skill, re-copy it in that app's sync PR.
+
 ## Check
 
 ```sh

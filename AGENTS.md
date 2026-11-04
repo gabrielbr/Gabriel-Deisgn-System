@@ -98,8 +98,10 @@ A new app gets the three skills in its first commit, with its row in the table a
 6. Open the PR with the template; it asks for the audit and the app impact.
 7. **Merge it to `main` yourself** (squash), once CI is green, the audit has no open critical /
    P0 / P1 that the change introduces, and there are no unresolved review threads. The owner's
-   standing instruction (2026-11-01): in this repo, always merge to main; don't leave PRs waiting.
-   This applies to this repo only; the app repos keep their own merge rules.
+   standing instruction (2026-11-01, widened 2026-11-04): **in every repo, merge your PR when the
+   work is finished and verified**; don't leave PRs waiting. That includes the app PRs that sync a
+   change (step 8): merge each once its own tests and checks pass, in that repo's style (squash in
+   NotTheOmiAIApp, a merge commit in PulseLoopAndroid). A release follows the app repo's own flow.
 8. After merge, **sync the apps**. For a product that builds on the core in its own repo (Cochilo),
    that's a PR there that re-syncs its `design/core/` (its `design/core/CORE.md` says how); it
    checks itself with its own build. For the apps with a layer here ([docs/consuming.md](docs/consuming.md)), open a PR in each

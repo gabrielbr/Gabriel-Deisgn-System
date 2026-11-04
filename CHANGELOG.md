@@ -3,6 +3,15 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.30.1 — 2026-11-04
+
+Rule wording only (patch). The owner's standing instruction to merge widens from this repo to every
+repo: an agent merges its PR, here and in the app repos, once the work is finished and verified
+(AGENTS.md "How a change goes in", step 7).
+
+What each app has to do: nothing in code. NotTheOmiAIApp's and PulseLoopAndroid's AGENTS.md say the
+same.
+
 ## 0.30.0 — 2026-11-03
 
 **A heart in the line set** (minor: an icon added; no token or value changes).

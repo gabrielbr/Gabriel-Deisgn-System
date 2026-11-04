@@ -7,6 +7,7 @@
 ## Audit
 
 - [ ] `audits/<date>-<topic>.md` added
+- [ ] ux-user-flows §13 flow review run (or "no flow changes")
 - [ ] graphic-design-fundamentals §13 checklist run
 - [ ] impeccable audit (native) run; critique too if visual
 - [ ] less-is-more run: what was cut or moved, taps on common actions don't rise

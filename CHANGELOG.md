@@ -3,6 +3,27 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.31.0 — 2026-11-04
+
+**A fourth design skill: ux-user-flows** (minor: a rule added; no token or value changes).
+- **New skill.** `ux-user-flows`, the owner's claude.ai skill, is in `.claude/skills/`. It decides
+  what happens and in what order: the job, entry points, steps, branches, every state (empty,
+  loading, error, offline), exits, forms, errors and onboarding, from Norman, Krug, NN/g, Baymard
+  and WCAG 2.2. Its §13 flow review checklist has 15 questions.
+- **The rule.** Every change here is audited with four skills, ux-user-flows first. A change with
+  no flow in it says so in one line. The audit template and the PR checklist gain a ux-user-flows
+  section.
+- **The apps.** Every app carries the four skills and requires them on every screen and flow, in
+  the order ux-user-flows, impeccable, graphic-design-fundamentals, less-is-more. Where a skill's
+  general advice differs from this system (48dp targets, one mint action, the frame), the system
+  wins (`docs/products.md`, "The four design skills").
+
+What each app has to do:
+- **NotTheOmiAIApp, PulseLoopAndroid and Cochilo:** copy `.claude/skills/ux-user-flows/` and the
+  updated `less-is-more/SKILL.md` (its description now names four skills), update `VENDORED.md`
+  to 0.31.0, and replace the "Three skills" rule in AGENTS.md with the four-skill text from
+  `docs/products.md`. No token re-sync: the tokens are unchanged.
+
 ## 0.30.1 — 2026-11-04
 
 Rule wording only (patch). The owner's standing instruction to merge widens from this repo to every

@@ -63,12 +63,13 @@ two-icon header, wide screens and large text.
 3. Call `gen_tokens.compose_kt(t, "<app>", "<package>", "<Object>", ["<doc line>"])` (and `css`
    if it needs web) from the product's build; check with `check_tokens`' functions.
 4. Add a row for the product to the table in AGENTS.md here ("builds on the core in its own repo").
-5. Copy the three design skills into the product's `.claude/skills/` and add the rule below to
-   its AGENTS.md ([the three design skills](#the-three-design-skills)).
+5. Copy the four design skills into the product's `.claude/skills/` and add the rule below to
+   its AGENTS.md ([the four design skills](#the-four-design-skills)).
 
-## The three design skills
+## The four design skills
 
 Every app on this boilerplate designs and audits each screen and flow with:
+- **ux-user-flows**, the owner's UX and flow method;
 - **impeccable**;
 - **graphic-design-fundamentals**, the owner's design basics;
 - **less-is-more**.
@@ -77,7 +78,7 @@ They are vendored in this repo's `.claude/skills/` (`VENDORED.md` says from wher
 
 **In the app's repo:**
 
-1. Copy `impeccable/`, `graphic-design-fundamentals/` and `less-is-more/` into its
+1. Copy `ux-user-flows/`, `impeccable/`, `graphic-design-fundamentals/` and `less-is-more/` into its
    `.claude/skills/`.
 2. Add a `VENDORED.md` naming this repo's version.
 3. Adapt less-is-more's examples to the product if that helps; keep the five questions and the
@@ -85,14 +86,19 @@ They are vendored in this repo's `.claude/skills/` (`VENDORED.md` says from wher
 
 **The rule for the app's AGENTS.md** (copy it as it is):
 
-> - **Three skills on every screen and flow.** Every new or changed screen, flow, sheet,
->   notification or widget is designed with, and then audited against, all three skills in
->   `.claude/skills/`:
->   1. **impeccable**: shape, critique and polish while designing, then its native `audit` and
+> - **Four skills on every screen and flow.** Every new or changed screen, flow, sheet,
+>   notification or widget is designed with, and then audited against, all four skills in
+>   `.claude/skills/`, in this order:
+>   1. **ux-user-flows**: first, decide what happens and in what order. Write the flow (entry
+>      points, steps, branches, every state, exits) and run its §13 flow review checklist.
+>   2. **impeccable**: shape, critique and polish while designing, then its native `audit` and
 >      `critique`, with the five dimensions scored and findings P0–P3.
->   2. **graphic-design-fundamentals**: plan with it, then its §13 checklist.
->   3. **less-is-more**: the five questions on every element; what was cut; taps on common actions
+>   3. **graphic-design-fundamentals**: plan with it, then its §13 checklist.
+>   4. **less-is-more**: the five questions on every element; what was cut; taps on common actions
 >      never rise.
+>
+>   Where a skill's general advice and this design system differ (target sizes, the one mint
+>   action, the frame), the design system wins.
 >
 >   Use them while working, not only at the end. If a skill won't load, read its `SKILL.md` and
 >   references and apply it by hand, and say so. The audit file has one section per skill. Fix any

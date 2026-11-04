@@ -23,9 +23,9 @@ icons and marks. Apps copy from here; they don't define their own.
 | [`docs/`](docs/) | Foundations, components, content, accessibility, tokens, syncing, divergences, audit process |
 | [`generated/`](generated/) | `UiTokens.java` (uikit), `GTokens.kt` (PulseLoop), CSS variables |
 | [`assets/`](assets/) | Ubuntu Mono + licence, the `GV_`/`GM_` marks, line icons |
-| [`audits/`](audits/) | One audit per change (graphic-design-fundamentals + impeccable + less-is-more) |
+| [`audits/`](audits/) | One audit per change (ux-user-flows + graphic-design-fundamentals + impeccable + less-is-more) |
 | [`scripts/`](scripts/) | `gen_tokens.py`, `check_tokens.py`, `drift.py` |
-| [`.claude/skills/`](.claude/skills/) | The three design skills, vendored; every app built on this system copies them ([products.md](docs/products.md#the-three-design-skills)) |
+| [`.claude/skills/`](.claude/skills/) | The four design skills, vendored; every app built on this system copies them ([products.md](docs/products.md#the-four-design-skills)) |
 | [`AGENTS.md`](AGENTS.md) | The rules for changing anything here |
 
 ## Use

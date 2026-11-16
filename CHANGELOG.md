@@ -3,6 +3,23 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.31.1 — 2026-11-16
+
+**Impeccable 4.8.0 → 4.9.2** (patch: a vendored skill updated; no token, value or rule change for
+the apps' screens).
+- `.claude/skills/impeccable/` re-copied from upstream `d41d986` (skill 4.9.2, launcher 0.1.25).
+  New references: `critique-rubric.md`, `foundations.md`, `new-work-world.md`,
+  `new-work-comp.md`, `degraded/motion-reviewer.md`; the audit, critique and native audit
+  references are revised.
+- **New standing rule** (`.claude/skills/VENDORED.md`): Impeccable is kept at its latest release.
+  When a session sees it report a newer version, it updates it here first and re-copies it to every
+  app the same day.
+
+What each app has to do:
+- **NotTheOmiAIApp, PulseLoopAndroid and Cochilo:** replace `.claude/skills/impeccable/` with this
+  repo's copy (delete the old folder first) and update the Impeccable row of `VENDORED.md` to
+  4.9.2 / 0.1.25 at design system 0.31.1. No token re-sync.
+
 ## 0.31.0 — 2026-11-04
 
 **A fourth design skill: ux-user-flows** (minor: a rule added; no token or value changes).

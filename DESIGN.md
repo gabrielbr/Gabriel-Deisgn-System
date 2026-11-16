@@ -1,6 +1,6 @@
 ---
 name: Gabriel Design System
-version: 0.31.0
+version: 0.31.1
 # GENERATED from tokens/tokens.json by scripts/gen_tokens.py. Edit the tokens, not this block.
 colors:
   page: "#F2F2F2"

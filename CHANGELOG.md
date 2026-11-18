@@ -3,6 +3,20 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.31.2 — 2026-11-18
+
+**Oiê joins the app table** (patch: docs only; no token, value or rule change).
+- `AGENTS.md`: a row for **Oiê** (`gabrielbr/familyzap`, `app.oie.ui.theme`). It builds on the
+  core in its own repo like Cochilo (`docs/products.md`), with its own new brand `oie` (coral,
+  Nunito), light and dark, vendored at core 0.31.1. It carries the four design skills. Fairy mode
+  is not carried, by the owner's decision of 2026-11-18 (its brand bans pink), and that is
+  recorded in its layer.
+
+What each app has to do:
+- **NotTheOmiAIApp, PulseLoopAndroid and Cochilo:** nothing. The version in generated headers
+  moves to 0.31.2, with no values changing; pick it up at the next sync.
+- **Oiê:** nothing; it stays on core 0.31.1 until a value changes.
+
 ## 0.31.1 — 2026-11-16
 
 **Impeccable 4.8.0 → 4.9.2** (patch: a vendored skill updated; no token, value or rule change for

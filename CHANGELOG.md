@@ -10,7 +10,7 @@ the app has to do.
   core in its own repo like Cochilo (`docs/products.md`), with its own new brand `oie` (coral,
   Nunito), light and dark, vendored at core 0.31.1. It carries the four design skills. Fairy mode
   is not carried, by the owner's decision of 2026-11-18 (its brand bans pink), and that is
-  recorded in its layer.
+  recorded in its layer and here as divergence D-13 (`docs/divergences.md`).
 
 What each app has to do:
 - **NotTheOmiAIApp, PulseLoopAndroid and Cochilo:** nothing. The version in generated headers

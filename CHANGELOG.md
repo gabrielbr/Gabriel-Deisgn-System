@@ -3,6 +3,19 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.32.0 — 2026-11-18
+
+**Six icons added to the line set** (minor: assets added; no token, value or rule change).
+- `assets/icons/android/`: `gg_ic_camera`, `gg_ic_image`, `gg_ic_sticker`, `gg_ic_send`,
+  `gg_ic_link`, `gg_ic_clock`. They are drawn in the set's style: 24 grid, 22dp, stroke 1.75, round
+  caps and joins, no fills. Oiê needs them for sending photos, stickers and messages, for linking
+  WhatsApp, and for quiet hours. Oiê follows the core icon rule instead of its own set (the owner's
+  decision, 2026-11-18).
+
+What each app has to do:
+- **NotTheOmiAIApp, PulseLoopAndroid and Cochilo:** nothing. Copy an icon when a screen needs it.
+- **Oiê:** copy the six into its app when its screens are built.
+
 ## 0.31.2 — 2026-11-18
 
 **Oiê joins the app table** (patch: docs only; no token, value or rule change).

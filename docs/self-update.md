@@ -35,6 +35,9 @@ it says "Self-update works in the release build only ({versionName} / {applicati
 
 ## The rules
 
+**Oiê** shows the sheet only in its parent area, not to the kid who opens the app (divergence D-14).
+
+
 - **When it checks.** On every return to the foreground, cold start included, at most **once every
   15 minutes**. Repeat checks send `If-None-Match` with the last `ETag`; a `304` re-reads the cached
   release, so a release dismissed earlier is offered again next session. The manual check skips the

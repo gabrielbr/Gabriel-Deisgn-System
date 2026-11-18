@@ -3,6 +3,14 @@
 Semantic versioning (AGENTS.md "Versioning"). Each entry says what changed for each app and what
 the app has to do.
 
+## 0.32.1 — 2026-11-18
+
+**Divergence D-14: Oiê's update sheet** (patch: docs only; no token, value or rule change for the other apps).
+- `docs/divergences.md`: D-14. Oiê shows the self-update sheet only in its parent area, behind the parent PIN, because the person who opens Oiê is usually a kid. Every other self-update rule holds. The owner's decision, 2026-11-18.
+- `docs/self-update.md`: one line pointing at D-14.
+
+What each app has to do: nothing.
+
 ## 0.32.0 — 2026-11-18
 
 **Six icons added to the line set** (minor: assets added; no token, value or rule change).
